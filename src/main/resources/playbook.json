@@ -1,0 +1,236 @@
+[
+    {
+        "name": "PayPilot Inc.",
+        "description": "PayPilot Inc. is a leading acquirer bank specializing in processing credit and debit card transactions for merchants worldwide. With a robust presence in over 30 countries, PayPilot Inc. serves more than 1,000,000 merchant locations, offering secure and efficient payment processing solutions.",
+        "headquarters": {
+            "country": "United States",
+            "city": "New York"
+        },
+        "departments": [
+            {
+                "name": "LEGAL",
+                "description": "The legal team reviews and assesses cases to ensure they comply with all applicable laws and regulations, providing guidance on legal risks and implications. They draft, revise, and approve legal documents, ensuring that the organization's actions are legally sound and protecting it from potential legal issues.",
+                "contact": {
+                    "emailId": "barvind88@gmail.com"
+                }
+            },
+            {
+                "name": "COLLECTIONS",
+                "description": "A collections team's primary role is to recover overdue payments by managing accounts, communicating with customers, and resolving disputes. They also ensure compliance with regulations, maintain accurate records, and report on collections activity to support the organization’s financial health.",
+                "contact": {
+                    "emailId": "barvind88@gmail.com"
+                }
+            },
+            {
+                "name": "CUSTOMER_SUPPORT",
+                "description": "PayPilot provides comprehensive 24/7 customer support to assist merchants with queries and issues related to payment processing.",
+                "contact": {
+                    "emailId": "barvind88@gmailcom"
+                },
+                "guidelines": [
+                    "Any inter-department communication should be via Email.",
+                    "Account in the context of this playbook, refers to a Merchant's account.",
+                    "Any system change request can be executed only by an user with an ADMIN role. Solicitor with an USER/ANONYMOUS_USER role cannot perform any system changes.",
+                    "MerchantId, a unique identifier assigned to a business or individual within the PayPilot system, will be often be abbreviated and referred as MID.",
+                    "Merchant status should be one of the following: OPEN,\n HOLD,\n REOPEN,\n CLOSED."
+                ],
+                "services": [
+                    {
+                        "type": "SYSTEM_MAINTENANCE",
+                        "description": "PayPilot Inc. has a specialized support services for handling system maintenance requests, such as ADDRESS_CHANGE, MERCHANT_ACCOUNT_STATUS_CHANGE etc. Each request is handled using an internal Case Management System, and are assigned a CaseId, a uniqueId, for tracking and resolution. System maintenance activities are controlled, using Role-based authorizations, which ensures, that users can only perform changes to the system, according to their assigned roles, such as USER or ADMIN. This is crucial for maintaining security, enforcing permissions, and ensuring that users actions align with their roles.",
+                        "userRoles": [
+                            {
+                                "name": "USER",
+                                "description": "Standard role with limited access. Can view their own data and perform basic operations. Cannot perform any system changes.",
+                                "permissions": [
+                                    "NONE"
+                                ]
+                            },
+                            {
+                                "name": "ADMIN",
+                                "description": "Elevated role with full access. Can manage users, access all data, and perform administrative tasks.",
+                                "permissions": [
+                                    "ADDRESS_CHANGE",
+                                    "MERCHANT_ACCOUNT_STATUS_CHANGE"
+                                ]
+                            }
+                        ],
+                        "works": [
+                            {
+                                "workFlowId": "ADVISE_CASE_MANAGEMENT_FLOW",
+                                "workId": "ADVISE_CASE_PRE_SCREEN",
+                                "userText": "Given a case for a system maintenance request, perform the following validations on the Email communication, attached, to pre-screen and prevent unauthorized access to sensitive information, and risk management.\na. Evaluate the solicitor's Role by solicitorId using the getSolicitorRoleByEmailId function.\nb. Extract MerchantId, often abbreviated as MID. Evaluate the merchant status using getMerchantStatusByMerchantId function.\nc. Please provide the list of clearances, required, if any, to process the case.\nd. STOP the process only if the user is authorized.\nPlease provide the results after validation, in a JSON format, strictly adhering to the following schema structure. Any deviation in structure or extra fields could result in unintended outputs. Do not include any explanations. Do not include schema in the response.\n Schema: {schema}\n Case: {case}",
+                                "schema": {
+                                    "$schema": "http://json-schema.org/draft-07/schema#",
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "enum": [
+                                                "PROCEED",
+                                                "STOP"
+                                            ],
+                                            "description": "Indicates whether the workflow should PROCEED (continue) or STOP."
+                                        },
+                                        "clearances": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "departmentName": {
+                                                        "type": "string",
+                                                        "description": "The name of the department or team required clearance from."
+                                                    },
+                                                    "status": {
+                                                        "type": "string",
+                                                        "enum": ["PENDING", "CLEARED", "NOT_CLEARED"],
+                                                        "description": "The status of the clearance process for the department. It should be PENDING, if clearance required"
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "validations": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            },
+                                            "description": "A list of validation steps, results, conflicts detected, and corrective actions, if any."
+                                        }
+                                    },
+                                    "required": [
+                                        "status",
+                                        "validations"
+                                    ],
+                                    "additionalProperties": false
+                                }
+                            },
+                            {
+                                "workFlowId": "ADVISE_CASE_MANAGEMENT_FLOW",
+                                "workId": "ADVISE_CATEGORIZE_SYSTEM_CHANGE",
+                                "userText": "Given a case for a system maintenance request, categorize the case to one of the following change type. Do not perform any validations on the data yet. Do not send any unsolicited Email to the customer, unless and until specified.\n a. ADDRESS_CHANGE\n b. MERCHANT_ACCOUNT_STATUS_CHANGE\n Please provide the result in a JSON format, strictly adhering to the following schema structure. Any deviation in structure or extra fields could result in unintended outputs. Do not include any explanations. Do not include the JSON schema in the response.\n Schema: {schema}\n Case: {case}",
+                                "schema": {
+                                    "$schema": "http://json-schema.org/draft-07/schema#",
+                                    "type": "object",
+                                    "properties": {
+                                        "caseType": {
+                                            "type": "string",
+                                            "enum": [
+                                                "ADDRESS_CHANGE",
+                                                "MERCHANT_ACCOUNT_STATUS_CHANGE"
+                                            ],
+                                            "description": "A list of validation steps, results, conflicts detected, and corrective actions, if any."
+                                        },
+                                        "status": {
+                                            "type": "string",
+                                            "enum": [
+                                                "PROCEED",
+                                                "STOP"
+                                            ],
+                                            "description": "Indicates whether the workflow should PROCEED (continue) or STOP."
+                                        }
+                                    },
+                                    "required": [
+                                        "status",
+                                        "caseType"
+                                    ],
+                                    "additionalProperties": false
+                                }
+                            },
+                            {
+                                "workFlowId": "ADVISE_ADDRESS_CHANGE_FLOW",
+                                "workId": "ADVISE_ADDRESS_CHANGE",
+                                "conditional": "case.caseType=='ADDRESS_CHANGE'",
+                                "validationRules": [
+                                    "Any address change request cannot be approved to Turkey or Belarus",
+                                    "A valid address should contain the following:\n - Town or City\n - House or Building Number\n - Street Name\n - Town or City\n - Country\n - Zipcode"
+                                ],
+                                "userText": "Given an ADDRESS_CHANGE request, validate the new Address in the case, using the rules provided, for data integrity, compliance and fraud prevention. Please provide confirmation to PROCEED or STOP, after validation. Validate the first available address in the email embedded in the case. Think step by step.\n Please provide the result in a JSON format, strictly adhering to the following schema structure. Any deviation in structure or extra fields could result in unintended outputs. Do not include any explanations. Do not include the JSON schema in the response.\n Schema: {schema}\n Case: {case}",
+                                "schema": {
+                                    "$schema": "http://json-schema.org/draft-07/schema#",
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "enum": [
+                                                "PROCEED",
+                                                "STOP"
+                                            ],
+                                            "description": "Indicates whether the workflow should PROCEED (continue) or STOP."
+                                        },
+                                        "validations": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            },
+                                            "description": "A list of validation steps, results, conflicts detected, and corrective actions, if any."
+                                        }
+                                    },
+                                    "required": [
+                                        "status",
+                                        "validations"
+                                    ],
+                                    "additionalProperties": false
+                                }
+                            },
+                            {
+                                "workFlowId": "ADVISE_MERCHANT_ACCOUNT_STATUS_CHANGE_FLOW",
+                                "workId": "ADVISE_MERCHANT_ACCOUNT_STATUS_CHANGE",
+                                "conditional": "case.caseType=='MERCHANT_ACCOUNT_STATUS_CHANGE'",
+                                "validationRules": [
+                                    "Merchants which have DBA Address in 'Monaco'/'Andorra' cannot be reopened.",
+                                    "Reopening a merchant account has to be raised and approved by the department that requested the closure. Please reach out the concerned department via Email. Include caseId and merchantId in the subject.",
+                                    "Any activity on the closed account will require approval from the COLLECTIONS and LEGAL team. Please reach out the them via Email.",
+                                    "Approval/Clearance can only be skipped, if all the required approvals are embedded in the case, already. System maintenance request can PROCEED in this case"
+                                ],
+                                "userText": "Given an MERCHANT_ACCOUNT_STATUS_CHANGE request, please verify all the necessary clearance are sought and confirm, if the change could PROCEED.\na. Use the sendEmailByEmailId function to send any emails.\nb. Use the getMerchantDetailsByMerchantId function, to get the current account details, status etc.\nc. Address any emails, professionally. Always include caseId, merchantId in the subject. Include departmentName in both subject and body. Include a label as well - CaseID, MerchantID, DepartmentName.\n Please provide the result in a JSON format, strictly adhering to the following schema structure. Any deviation in structure or extra fields could result in unintended outputs. Do not include any explanations. Do not include the JSON schema in the response.\n Schema: {schema}\n Case: {case}",
+                                "schema": {
+                                    "$schema": "http://json-schema.org/draft-07/schema#",
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "enum": [
+                                                "PROCEED",
+                                                "STOP"
+                                            ],
+                                            "description": "Indicates whether, the agent can PROCEED with the system change request, after approval."
+                                        },
+                                        "clearances": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "departmentName": {
+                                                        "type": "string",
+                                                        "description": "The name of the department or team required clearance from."
+                                                    },
+                                                    "status": {
+                                                        "type": "string",
+                                                        "enum": ["PENDING", "CLEARED", "NOT_CLEARED"],
+                                                        "description": "The status of the clearance process for the department. It should be PENDING, if clearance required"
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "validations": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            },
+                                            "description": "A list of validation steps, results, conflicts detected, and corrective actions, if any."
+                                        }
+                                    },
+                                    "required": [
+                                        "status",
+                                        "validations"
+                                    ],
+                                    "additionalProperties": false
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+]

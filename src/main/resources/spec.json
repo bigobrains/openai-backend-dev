@@ -1,0 +1,459 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+        "title": "OpenAPI definition",
+        "version": "v0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8080/v1",
+            "description": "Generated server url"
+        }
+    ],
+    "paths": {
+        "/cases/{caseId}/evaluate": {
+            "put": {
+                "tags": [
+                    "case-controller"
+                ],
+                "operationId": "evaluateCase",
+                "parameters": [
+                    {
+                        "name": "caseId",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Case"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Case"
+                                },
+                                "examples": {
+                                    "Case": {
+                                        "description": "Case",
+                                        "value": {
+                                            "caseId": "92534270",
+                                            "solicitorId": "barvind88@gmail.com",
+                                            "subject": "Fw: Address change request",
+                                            "createTS": "2024-08-15T14:41:01.042547100",
+                                            "data": "DQpJIHdvdWxkIGxpa2UgdG8gY2hhbmdlIHRoZSBhZGRyZXNzIG9uIHRoZSBmaWxlIHRvIGJlbG93LiBNZXJjaGFudElEOiAgMDAxNDcyOTk5MzM1ODk3NDk3MQ0KDQpOZXcgQWRkcmVzcw0KPT09PT09PT09PT09PT09PQ0KMTUwIFcgTWFpbiBTdCwgQXB0I3MiwgV2F1a2VzaGEuIFdJIC0gNTMxODYuDQoNClRoYW5rcw0KQXJ2aW5kIEINCg==",
+                                            "status": "FAILED",
+                                            "assignedTo": "Lee Chambers"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/chats": {
+            "post": {
+                "tags": [
+                    "chats-controller"
+                ],
+                "operationId": "postChat",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UserPrompt"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AssistantPrompt"
+                                },
+                                "examples": {
+                                    "AssistantPrompt": {
+                                        "description": "AssistantPrompt",
+                                        "value": {
+                                            "message": "The role of the user axbadri@gmail.com is ANONYMOUS_USER. According to the provided context, only users with an ADMIN role can perform system changes, while users with an ANONYMOUS_USER role cannot perform any system changes."
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/cases": {
+            "get": {
+                "tags": [
+                    "case-controller"
+                ],
+                "operationId": "getCases",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Case"
+                                },
+                                "examples": {
+                                    "Case": {
+                                        "description": "Case",
+                                        "value": [
+                                            {
+                                                "caseId": "92534270",
+                                                "solicitorId": "barvind88@gmail.com",
+                                                "subject": "Fw: Address change request",
+                                                "createTS": "2024-08-15T14:41:01.042547100",
+                                                "data": "DQpJIHdvdWxkIGxpa2UgdG8gY2hhbmdlIHRoZSBhZGRyZXNzIG9uIHRoZSBmaWxlIHRvIGJlbG93LiBNZXJjaGFudElEOiAgMDAxNDcyOTk5MzM1ODk3NDk3MQ0KDQpOZXcgQWRkcmVzcw0KPT09PT09PT09PT09PT09PQ0KMTUwIFcgTWFpbiBTdCwgQXB0I3MiwgV2F1a2VzaGEuIFdJIC0gNTMxODYuDQoNClRoYW5rcw0KQXJ2aW5kIEINCg==",
+                                                "status": "FAILED",
+                                                "assignedTo": "Lee Chambers"
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "case-controller"
+                ],
+                "operationId": "postCase",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Case"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Case"
+                                },
+                                "examples": {
+                                    "Case": {
+                                        "description": "Case",
+                                        "value": {
+                                            "caseId": "92534270",
+                                            "solicitorId": "barvind88@gmail.com",
+                                            "subject": "Fw: Address change request",
+                                            "createTS": "2024-08-15T14:41:01.042547100",
+                                            "data": "DQpJIHdvdWxkIGxpa2UgdG8gY2hhbmdlIHRoZSBhZGRyZXNzIG9uIHRoZSBmaWxlIHRvIGJlbG93LiBNZXJjaGFudElEOiAgMDAxNDcyOTk5MzM1ODk3NDk3MQ0KDQpOZXcgQWRkcmVzcw0KPT09PT09PT09PT09PT09PQ0KMTUwIFcgTWFpbiBTdCwgQXB0I3MiwgV2F1a2VzaGEuIFdJIC0gNTMxODYuDQoNClRoYW5rcw0KQXJ2aW5kIEINCg==",
+                                            "status": "FAILED",
+                                            "assignedTo": "Lee Chambers"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/users": {
+            "get": {
+                "tags": [
+                    "user-controller"
+                ],
+                "operationId": "getUsers",
+                "parameters": [
+                    {
+                        "name": "emailId",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                },
+                                "examples": {
+                                    "User": {
+                                        "description": "User",
+                                        "value": [
+                                            {
+                                                "id": "41497579",
+                                                "name": "Arvind Badri",
+                                                "emailId": "barvind88@gmail.com",
+                                                "role": "ADMIN",
+                                                "title": "Lab Director",
+                                                "companyName": "United Diagnostics",
+                                                "zipCode": "53186"
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/status": {
+            "get": {
+                "tags": [
+                    "status-controller"
+                ],
+                "operationId": "status",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/merchants": {
+            "get": {
+                "tags": [
+                    "merchants-controller"
+                ],
+                "operationId": "getMerchants",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Merchant"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Case": {
+                "type": "object",
+                "properties": {
+                    "caseId": {
+                        "type": "string",
+                        "example": "92534270"
+                    },
+                    "solicitorId": {
+                        "type": "string",
+                        "example": "barvind88@gmail.com"
+                    },
+                    "subject": {
+                        "type": "string",
+                        "example": "Fw: Address change request"
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "example": "2024-08-15T14:41:01.042547100"
+                    },
+                    "data": {
+                        "type": "string",
+                        "example": "DQpJIHdvdWxkIGxpa2UgdG8gY2hhbmdlIHRoZSBhZGRyZXNzIG9uIHRoZSBmaWxlIHRvIGJlbG93LiBNZXJjaGFudElEOiAgMDAxNDcyOTk5MzM1ODk3NDk3MQ0KDQpOZXcgQWRkcmVzcw0KPT09PT09PT09PT09PT09PQ0KMTUwIFcgTWFpbiBTdCwgQXB0I3MiwgV2F1a2VzaGEuIFdJIC0gNTMxODYuDQoNClRoYW5rcw0KQXJ2aW5kIEINCg=="
+                    },
+                    "status": {
+                        "type": "string",
+                        "example": "ACKNOWLEDGED"
+                    },
+                    "assignedTo": {
+                        "type": "string",
+                        "example": "Lee Chambers"
+                    },
+                    "workFlow": {
+                        "$ref": "#/components/schemas/WorkFlow"
+                    }
+                }
+            },
+            "WorkFlow": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "works": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/WorkItem"
+                        }
+                    }
+                },
+                "required": ["name", "works"]
+            },
+            "WorkItem": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "workResult": {
+                        "type": "object",
+                        "properties": {
+                            "name": {
+                                "type": "string"
+                            },
+                            "extensions": {
+                                "type": "object",
+                                "properties": {
+                                    "caseId": {
+                                        "type": "string"
+                                    },
+                                    "status": {
+                                        "type": "string"
+                                    },
+                                    "validations": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "changeType": {
+                                        "type": "string"
+                                    }
+                                },
+                                "required": ["status"]
+                            },
+                            "status": {
+                                "type": "string"
+                            },
+                            "results": {
+                                "type": "array",
+                                "items": {}
+                            }
+                        },
+                        "required": ["name", "extensions", "status", "results"]
+                    },
+                    "works": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/WorkItem"
+                        }
+                    }
+                },
+                "required": ["name", "workResult"]
+            },
+            "UserPrompt": {
+                "type": "object",
+                "properties": {
+                    "message": {
+                        "type": "string",
+                        "example": "What is the role of the user axbadri@gmail.com"
+                    }
+                }
+            },
+            "AssistantPrompt": {
+                "type": "object",
+                "properties": {
+                    "message": {
+                        "type": "string"
+                    }
+                }
+            },
+            "User": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "emailId": {
+                        "type": "string"
+                    },
+                    "role": {
+                        "type": "string",
+                        "enum": [
+                            "ADMIN",
+                            "USER",
+                            "ANONYMOUS_USER"
+                        ]
+                    },
+                    "title": {
+                        "type": "string"
+                    },
+                    "companyName": {
+                        "type": "string"
+                    },
+                    "zipCode": {
+                        "type": "string"
+                    }
+                }
+            },
+            "Merchant": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": [
+                            "OPEN",
+                            "HOLD",
+                            "REOPEN",
+                            "CLOSED",
+                            "NONE"
+                        ]
+                    },
+                    "zipCode": {
+                        "type": "string"
+                    },
+                    "reasonCode": {
+                        "type": "string"
+                    },
+                    "updatedBy": {
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    }
+}

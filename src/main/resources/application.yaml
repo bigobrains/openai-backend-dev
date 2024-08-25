@@ -1,0 +1,31 @@
+server:
+    servlet:
+        contextPath: /v1
+spring:
+    ai:
+        retry:
+            maxAttempts: 1
+        azure:
+            openai:
+                apiKey: ${azure_openai_api_key}
+                endpoint: https://team06oai.openai.azure.com/
+                chat:
+                    options:
+                        temperature: 0.7
+                        deploymentName: PayProsOAIDeployment
+                embedding:
+                    options:
+                        deploymentName: PayProsEmbeddingAIDeployment
+microservices:
+    mail:
+        imaps:
+            user: ${mail_imaps_user}
+            password: ${mail_imaps_password}
+logging:
+    level:
+        org:
+            springframework:
+                ai:
+                    chat:
+                        client:
+                            advisor: DEBUG
