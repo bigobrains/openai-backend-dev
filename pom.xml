@@ -9,9 +9,8 @@
         <relativePath/>
     </parent>
     <groupId>com.bigobrains.ai</groupId>
-    <artifactId>OPEN-AI-CRM-DEV</artifactId>
+    <artifactId>PAY-PILOT-CRM-DEV</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <description>Simple AI Application using OpenAPI Service</description>
     <properties>
         <java.version>17</java.version>
     </properties>
