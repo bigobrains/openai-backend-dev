@@ -35,6 +35,6 @@ public class SyncExecutorResult implements WorkResult {
 
     @Override
     public Map<String, Object> getExtensions() {
-        return Map.of();
+        return extensions;
     }
 }
