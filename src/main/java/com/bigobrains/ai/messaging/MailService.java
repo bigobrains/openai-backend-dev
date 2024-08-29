@@ -100,7 +100,6 @@ public class MailService {
     public void handleMail(MimeMessage message) {
 
         try {
-            String subject = message.getSubject();
             BeanOutputConverter<CaseWorkExecutorResult> beanOutputConverter = new BeanOutputConverter<>(CaseWorkExecutorResult.class);
             MimeMessageParser mimeMessageParser = new MimeMessageParser(message).parse();
             ChatResponse response = simpleChatClient.prompt()

@@ -9,7 +9,6 @@ import com.bigobrains.ai.messaging.cases.management.users.User;
 import com.bigobrains.ai.messaging.cases.management.users.UserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
 import java.util.List;
 
 @Configuration
