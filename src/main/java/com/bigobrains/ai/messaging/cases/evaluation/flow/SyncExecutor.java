@@ -34,7 +34,7 @@ public class SyncExecutor implements WorkFlowExecutor {
                 if (flowStatus.get().equals(FlowStatus.OPEN)) {
                     return Flux.empty();
                 }
-                Predicate<FlowExecution> predicate = ((ConditionalFlow) work).getPredicate();
+                Predicate<FlowExecution> predicate = flow.getPredicate();
                 if (!predicate.test(flowExecution)) {
                     return Flux.just(new SyncExecutorResult(workFlow.getName(), WorkStatus.SKIPPED, null, null));
                 }

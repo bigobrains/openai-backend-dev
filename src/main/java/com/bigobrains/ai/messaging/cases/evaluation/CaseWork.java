@@ -52,12 +52,4 @@ public class CaseWork implements UnitWork {
         this.workResult = new CaseWorkResult(name, workStatus, executorResult.getExtensions());
         return Mono.just(this.workResult);
     }
-
-    @Override
-    public String toString() {
-        return "CaseWork{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                '}';
-    }
 }

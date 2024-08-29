@@ -47,13 +47,4 @@ public class SyncFlow implements WorkFlow {
     public String getId() {
         return id;
     }
-
-    @Override
-    public String toString() {
-        return "SyncFlow{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", works=" + works +
-                '}';
-    }
 }
