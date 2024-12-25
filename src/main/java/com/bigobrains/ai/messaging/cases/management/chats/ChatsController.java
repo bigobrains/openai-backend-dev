@@ -1,9 +1,8 @@
 package com.bigobrains.ai.messaging.cases.management.chats;
 
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.ExampleObject;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import java.util.Map;
+import java.util.Set;
+
 import org.springframework.ai.azure.openai.AzureOpenAiChatOptions;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.QuestionAnswerAdvisor;
@@ -15,8 +14,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Map;
-import java.util.Set;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
 @RestController
 public class ChatsController {
@@ -48,7 +49,7 @@ public class ChatsController {
     public AssistantPrompt postChat(@RequestBody UserPrompt userPrompt) {
         String userText = String.join("{context}\n", userPrompt.getMessage(), "\n{format}");
         ChatResponse response = chatBotClient.prompt()
-                .advisors(new QuestionAnswerAdvisor(vectorStore, SearchRequest.defaults()))
+                .advisors(new QuestionAnswerAdvisor(vectorStore, SearchRequest.builder().build()))
                 .options(AzureOpenAiChatOptions.builder().withFunctions(Set.of("getSolicitorRoleByEmailId", "sendEmailByEmailId", "getMerchantStatusByMerchantId", "getMerchantDetailsByMerchantId", "getCaseDetailsByCaseId")).build())
                 .user(u -> u.text(userText).params(Map.of(
                         "context", ADVISE_USER,
