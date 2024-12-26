@@ -1,18 +1,18 @@
 package com.bigobrains.ai.messaging.cases.management;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.ai.document.Document;
 import org.springframework.ai.embedding.EmbeddingModel;
 import org.springframework.ai.vectorstore.SimpleVectorStore;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class StaticVectorStore extends SimpleVectorStore {
 
     private final List<Document> documents;
 
     public StaticVectorStore(EmbeddingModel embeddingModel) {
-        super(embeddingModel);
+        super(SimpleVectorStore.builder(embeddingModel));
         this.documents = new ArrayList<>();
     }
 

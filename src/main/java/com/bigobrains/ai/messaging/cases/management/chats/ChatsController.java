@@ -50,7 +50,7 @@ public class ChatsController {
         String userText = String.join("{context}\n", userPrompt.getMessage(), "\n{format}");
         ChatResponse response = chatBotClient.prompt()
                 .advisors(new QuestionAnswerAdvisor(vectorStore, SearchRequest.builder().build()))
-                .options(AzureOpenAiChatOptions.builder().withFunctions(Set.of("getSolicitorRoleByEmailId", "sendEmailByEmailId", "getMerchantStatusByMerchantId", "getMerchantDetailsByMerchantId", "getCaseDetailsByCaseId")).build())
+                .options(AzureOpenAiChatOptions.builder().functions(Set.of("getSolicitorRoleByEmailId", "sendEmailByEmailId", "getMerchantStatusByMerchantId", "getMerchantDetailsByMerchantId", "getCaseDetailsByCaseId")).build())
                 .user(u -> u.text(userText).params(Map.of(
                         "context", ADVISE_USER,
                         "format", "Please provide the results in simple, everyday language that is easy to understand and free of technical jargon. Use straightforward sentences and provide examples where appropriate to make the content more relatable."

@@ -1,5 +1,14 @@
 package com.bigobrains.ai.messaging.cases.evaluation.delegator;
 
+import static org.springframework.ai.chat.client.advisor.AbstractChatMemoryAdvisor.CHAT_MEMORY_CONVERSATION_ID_KEY;
+import static org.springframework.ai.chat.client.advisor.AbstractChatMemoryAdvisor.CHAT_MEMORY_RETRIEVE_SIZE_KEY;
+
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import com.bigobrains.ai.databind.ObjectMapperFactory;
 import com.bigobrains.ai.messaging.cases.Case;
 import com.bigobrains.ai.messaging.cases.CaseRepository;
@@ -7,6 +16,7 @@ import com.bigobrains.ai.messaging.cases.evaluation.CaseWorkExecutorResult;
 import com.bigobrains.ai.messaging.cases.management.StaticVectorStore;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.commons.text.StringEscapeUtils;
@@ -20,12 +30,6 @@ import org.springframework.ai.converter.BeanOutputConverter;
 import org.springframework.ai.document.Document;
 import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.stereotype.Service;
-
-import java.util.*;
-import java.util.stream.Collectors;
-
-import static org.springframework.ai.chat.client.advisor.AbstractChatMemoryAdvisor.CHAT_MEMORY_CONVERSATION_ID_KEY;
-import static org.springframework.ai.chat.client.advisor.AbstractChatMemoryAdvisor.CHAT_MEMORY_RETRIEVE_SIZE_KEY;
 
 @Service
 public final class DefaultCaseEvaluatorExecutor implements CaseEvaluatorExecutor {
@@ -67,7 +71,7 @@ public final class DefaultCaseEvaluatorExecutor implements CaseEvaluatorExecutor
                     .advisors(a -> a
                             .param(CHAT_MEMORY_CONVERSATION_ID_KEY, o.getCaseId())
                             .param(CHAT_MEMORY_RETRIEVE_SIZE_KEY, 10000))
-                    .options(AzureOpenAiChatOptions.builder().withFunctions(Set.of("getSolicitorRoleByEmailId", "sendEmailByEmailId", "getMerchantStatusByMerchantId", "getMerchantDetailsByMerchantId")).build())
+                    .options(AzureOpenAiChatOptions.builder().functions(Set.of("getSolicitorRoleByEmailId", "sendEmailByEmailId", "getMerchantStatusByMerchantId", "getMerchantDetailsByMerchantId")).build())
                     .call().chatResponse();
             text = StringEscapeUtils.unescapeJson(response.getResult().getOutput().getContent());
             LOG.info("{}: {}", advise.getClazz().getSimpleName(), text);
@@ -116,6 +120,6 @@ public final class DefaultCaseEvaluatorExecutor implements CaseEvaluatorExecutor
 
     private static String contentList(VectorStore vectorStore) {
         List<Document> documents = ((StaticVectorStore) vectorStore).similaritySearchAll();
-        return documents.stream().map(Document::getContent).collect(Collectors.joining(System.lineSeparator()));
+        return documents.stream().map(Document::getFormattedContent).collect(Collectors.joining(System.lineSeparator()));
     }
 }
