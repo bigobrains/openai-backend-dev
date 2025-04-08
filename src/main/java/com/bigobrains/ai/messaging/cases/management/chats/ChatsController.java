@@ -56,6 +56,6 @@ public class ChatsController {
                         "format", "Please provide the results in simple, everyday language that is easy to understand and free of technical jargon. Use straightforward sentences and provide examples where appropriate to make the content more relatable."
                 )))
                 .call().chatResponse();
-        return new AssistantPrompt(response.getResult().getOutput().getContent());
+        return new AssistantPrompt(response.getResult().getOutput().getText());
     }
 }

@@ -1,14 +1,22 @@
 package com.bigobrains.ai.messaging;
 
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.LinkedHashSet;
+import java.util.Map;
+import java.util.Set;
+
+import jakarta.mail.MessagingException;
+import jakarta.mail.Transport;
+import jakarta.mail.internet.MimeMessage;
+
 import com.bigobrains.ai.messaging.cases.Case;
 import com.bigobrains.ai.messaging.cases.CaseRepository;
 import com.bigobrains.ai.messaging.cases.evaluation.CaseWorkExecutorResult;
 import com.bigobrains.ai.messaging.cases.evaluation.delegator.CaseEvaluatorDelegator;
 import com.bigobrains.ai.messaging.cases.management.agents.AgentManager;
 import com.bigobrains.ai.utils.RandomId;
-import jakarta.mail.MessagingException;
-import jakarta.mail.Transport;
-import jakarta.mail.internet.MimeMessage;
+
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.commons.mail2.jakarta.util.MimeMessageParser;
@@ -18,12 +26,6 @@ import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.ai.converter.BeanOutputConverter;
 import org.springframework.stereotype.Service;
-
-import java.io.IOException;
-import java.time.LocalDateTime;
-import java.util.LinkedHashSet;
-import java.util.Map;
-import java.util.Set;
 
 @Service
 public class MailService {
@@ -113,7 +115,7 @@ public class MailService {
                         } catch (MessagingException ignored) {}
                     })
                     .call().chatResponse();
-            CaseWorkExecutorResult managedCase = beanOutputConverter.convert(response.getResult().getOutput().getContent());
+            CaseWorkExecutorResult managedCase = beanOutputConverter.convert(response.getResult().getOutput().getText());
             byte[] bytes = mimeMessageParser.getPlainContent().trim().getBytes();
             if (managedCase != null && managedCase.getCaseId() != null) {
                 Case o = caseRepository.findById(managedCase.getCaseId());
@@ -145,7 +147,7 @@ public class MailService {
                     if (caseStatus != null) {
                         try {
                             BeanOutputConverter<CaseWorkExecutorResult> outputConverter = new BeanOutputConverter<>(CaseWorkExecutorResult.class);
-                            CaseWorkExecutorResult executorResult = outputConverter.convert(caseStatus.getResult().getOutput().getContent());
+                            CaseWorkExecutorResult executorResult = outputConverter.convert(caseStatus.getResult().getOutput().getText());
                             if (executorResult != null && !"NONE".equals(executorResult.getStatus())) {
                                 Set<Case.Clearance> clearances = o.getClearances();
                                 String departmentName = executorResult.getDepartmentName();

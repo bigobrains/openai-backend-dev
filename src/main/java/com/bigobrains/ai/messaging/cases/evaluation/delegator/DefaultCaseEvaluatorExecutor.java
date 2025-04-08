@@ -73,7 +73,7 @@ public final class DefaultCaseEvaluatorExecutor implements CaseEvaluatorExecutor
                             .param(CHAT_MEMORY_RETRIEVE_SIZE_KEY, 10000))
                     .options(AzureOpenAiChatOptions.builder().functions(Set.of("getSolicitorRoleByEmailId", "sendEmailByEmailId", "getMerchantStatusByMerchantId", "getMerchantDetailsByMerchantId")).build())
                     .call().chatResponse();
-            text = StringEscapeUtils.unescapeJson(response.getResult().getOutput().getContent());
+            text = StringEscapeUtils.unescapeJson(response.getResult().getOutput().getText());
             LOG.info("{}: {}", advise.getClazz().getSimpleName(), text);
             if (text != null) {
                 text = text.contains("```json") ? StringUtils.substringBefore(StringUtils.substringAfter(text, "```json"), "```") : text;
